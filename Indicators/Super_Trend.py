@@ -37,6 +37,7 @@ def ST(df,f,n): #df is the dataframe, n is the period, f is the factor; f=3, n=7
         else:
             df['Lower Band'][i]=df['Lower Basic'][i]   
     df['SuperTrend']=np.nan
+    df['SuperTrendType']=np.nan
     for i in df['SuperTrend']:
         if df['Close'][n-1]<=df['Upper Band'][n-1]:
             df['SuperTrend'][n-1]=df['Upper Band'][n-1]
@@ -45,12 +46,17 @@ def ST(df,f,n): #df is the dataframe, n is the period, f is the factor; f=3, n=7
     for i in range(n,len(df)):
         if df['SuperTrend'][i-1]==df['Upper Band'][i-1] and df['Close'][i]<=df['Upper Band'][i]:
             df['SuperTrend'][i]=df['Upper Band'][i]
+            df['SuperTrendType'][i]=-1
         elif  df['SuperTrend'][i-1]==df['Upper Band'][i-1] and df['Close'][i]>=df['Upper Band'][i]:
             df['SuperTrend'][i]=df['Lower Band'][i]
+            df['SuperTrendType'][i]=1
         elif df['SuperTrend'][i-1]==df['Lower Band'][i-1] and df['Close'][i]>=df['Lower Band'][i]:
             df['SuperTrend'][i]=df['Lower Band'][i]
+            df['SuperTrendType'][i]=1
         elif df['SuperTrend'][i-1]==df['Lower Band'][i-1] and df['Close'][i]<=df['Lower Band'][i]:
             df['SuperTrend'][i]=df['Upper Band'][i]
+            df['SuperTrendType'][i]=-1
+
     return df
     
 
